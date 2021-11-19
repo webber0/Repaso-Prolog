@@ -151,3 +151,28 @@ los_menores(S1):-producto_cartesiano(S1,S2), S1<S2.
 maxima_superficie(S):-pais(_,S),not(los_menores(S)).
 %Hago un join para saber a que pais corresponde
 descubrir_pais(P,S):-maxima_superficie(S),pais(P,S).
+
+
+%Dada una lista de paises y sus limites
+%buscar decir si un pais es translimitrofe con otro.
+%El concepto de translimitrofe es: A es translimitrofe
+%con B sii no son limitrofes entre si pero tienen a un
+%limitrofe en comun
+
+%Ejemplo: Argentina limita con chile y uruguay.
+%chile y uruguay son translimitrofe pero no limitrofes
+%brasil no se translimitrofe de uruguay porque ¡Es limitrofe!
+
+%Armo los limites reales
+limita_con(argentina,chile).
+limita_con(argentina,uruguay).
+limita_con(argentina,brasil).
+limita_con(argentina,paraguay).
+limita_con(argentina,bolivia).
+limita_con(chile,bolivia).
+limita_con(brasil,uruguay).
+limita_con(brasil,paraguay).
+limita_con(paraguay,bolivia).
+limita_con(peru,chile).
+
+es_translimitrofe(P1,P2):-(limita_con(P3,P1);limita_con(P1,P3)),(limita_con(P3,P2);limita_con(P2,P3)),not(limita_con(P1,P2);limita_con(P2,P1)), P1\==P2.
