@@ -2,7 +2,7 @@
 %clausulas
 entrada(paella).
 entrada(gazpacho).
-entrada(consomé).
+entrada(consomÃ©).
 
 carne(filete_de_cerdo).
 carne(pollo_asado).
@@ -27,14 +27,14 @@ menuSinFlan(X,Y,Z,W):-entrada(X),pescado(Y),postre(Z),dif(Z,flan),bebida(W).
 hombre(pedro) .
 hombre(manuel) .
 hombre(arturo) .
-mujer(maría).
+mujer(marÃ­a).
 mujer(sabrina).
 padre(pedro, manuel).
 padre(pedro, arturo).
-padre(pedro, maría) .
+padre(pedro, marÃ­a) .
 padre(pedro,sabrina).
 
-niño(X,Y):-padre(Y,X),dif(X,Y).
+niÃ±o(X,Y):-padre(Y,X),dif(X,Y).
 hijo(X,Y):-padre(Y,X),hombre(X),dif(X,Y).
 hija(X,Y):-padre(Y,X),mujer(X),dif(X,Y).
 hermano_o_hermana(X,Y):-padre(_,X),padre(_,Y),dif(X,Y).
@@ -130,3 +130,24 @@ divide(A,1,0,A).
 divide(A,A,0,1).
 divide(A,B,0,D):-A<B, D is mod(A,B).
 divide(A,B,C,D):-A>=B, A1 is A-B,divide(A1,B,C1,D),C is C1+1.
+
+%Practica 2021
+
+%Dado una cantidad de paises y sus superficies,
+%buscar el pais de mayor superficie
+
+%Paises y sus superficies -numeros ficticios-
+pais(argentina,45).
+pais(brasil,120). %claramente, este es el resultado que espero
+pais(chile,20).
+pais(paraguay,30).
+
+%a bit of Relational Algebra
+%Hago un producto cartesiano
+producto_cartesiano(S1,S2):-pais(_,S1),pais(_,S2).
+%Busco todos los menores a algo
+los_menores(S1):-producto_cartesiano(S1,S2), S1<S2.
+%Obtengo el mayor de todos
+maxima_superficie(S):-pais(_,S),not(los_menores(S)).
+%Hago un join para saber a que pais corresponde
+descubrir_pais(P,S):-maxima_superficie(S),pais(P,S).
